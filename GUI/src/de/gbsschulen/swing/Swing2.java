@@ -1,7 +1,11 @@
 package de.gbsschulen.swing;
 
 import java.awt.Container;
+import java.awt.FlowLayout;
+
 import javax.swing.*;
+
+import javafx.scene.control.Label;
 
 public class Swing2 extends JFrame {
 
@@ -16,11 +20,18 @@ public class Swing2 extends JFrame {
 	
 	
 	public Swing2 () {
+		// Hiermit setzt man eine Referenz auf den Container von JFrame
+		c = getContentPane();
 		
+		// Hier wird ein Layout für den Container festgelegt, hier FlowLayout (=> Fließendes Layout) später mehr
+		c.setLayout(new FlowLayout());
+		
+		// 
+		lb = new JLabel("Mein erstes Anzeigefeld: ");
+		c.add(lb);
 	}
 	
-	
-	
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 

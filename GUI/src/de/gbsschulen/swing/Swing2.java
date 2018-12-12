@@ -30,11 +30,6 @@ public class Swing2 extends JFrame {
 		lb = new JLabel("Mein erstes Anzeigefeld: ");
 		c.add(lb);
 	}
-	
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
 
 }

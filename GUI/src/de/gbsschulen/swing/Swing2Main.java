@@ -10,7 +10,7 @@ public class Swing2Main {
 			
 			sw2.setTitle("Titel Swing 2");
 			sw2.setSize(500,400);
-
+			
 			sw2.setVisible(true);
 			sw2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			

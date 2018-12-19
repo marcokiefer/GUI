@@ -7,8 +7,7 @@ import javax.swing.*;
 
 public class Uebung_Panel {
 
-	
-	
+
 	private static void erstelleundzeigeGUI() {
 		JFrame fr = new JFrame("Panel mit Buttons");
 		

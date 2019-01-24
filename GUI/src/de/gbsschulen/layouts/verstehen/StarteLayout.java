@@ -6,7 +6,5 @@ public class StarteLayout {
 		MixedLayouts ml = new MixedLayouts();
 		ml.setVisible(true);
 		
-
 	}
-
 }

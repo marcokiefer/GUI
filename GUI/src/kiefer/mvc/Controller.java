@@ -2,10 +2,10 @@ package kiefer.mvc;
 
 public class Controller {
 
-	private Model _model;
-	private View _view;
+	private IModel _model;
+	private IView _view;
 	
-	public Controller(View view, Model model) {
+	public Controller(IView view, IModel model) {
 		System.out.println("Ausgabe Controller");
 		this._model = model;
 		this._view = view;

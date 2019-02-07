@@ -1,8 +1,19 @@
 package kiefer.mvc;
 
-public class View implements IView{
+import javax.swing.JFrame;
+
+public class View extends JFrame implements IView {
 	
 	public View () {
 		System.out.println("Ausgabe View");
+		init();
+		
 	}
+	
+	private void init() {
+		
+		
+		
+	}
+	
 }

@@ -12,9 +12,6 @@ public class Start {
 		view = new View();
 		controller = new Controller( view, model );
 		
-		
-		
-		
 
 	}
 

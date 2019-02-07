@@ -10,6 +10,9 @@ public class Controller {
 		this._model = model;
 		this._view = view;
 		
+		
+		this._view.visible();
+		
 	}
 
 }

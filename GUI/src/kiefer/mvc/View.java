@@ -2,16 +2,20 @@ package kiefer.mvc;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.Panel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Hashtable;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -27,11 +31,28 @@ import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 
 public class View extends JFrame implements IView {
-	JMenu datei;
-	JMenu auswahl;
+	
+	private IModel model 				= null;
+	private ResultSet rs 				= null;
+	private JMenu datei 				= null;
+	private JMenu auswahl 				= null;
+	
+	private JTextField tfvname 			= null;
+	private JTextField tfnname 			= null;
+	
+	JList<String> teilnehmerliste 		= null;
+	
+	DefaultListModel<String> listModel 	= null;
+	
+	private Benutzer benutzer = null;
+	private Hashtable<Integer, Benutzer> benutzerliste;
+	
+	
 		// Bei Klick auf Teilnehmer wird das Listenfeld geladen
 	JMenuItem teilnehmer;
 	
@@ -69,6 +90,28 @@ public class View extends JFrame implements IView {
 		this.inhalt();
 	}
 	
+	/**
+	 * Diese Methode lädt später die Daten aus der Datenbank per Button-Klick
+	 * in die JList Teilnehmer
+	 */
+	private void ladeListeButton() {
+		
+		this.ladeListControl();
+		teilnehmerliste.setModel(this.listModel);
+		teilnehmerliste.setFont(this.getFont());
+		
+		tfvname.setText("");
+		tfnname.setText("");
+		
+	}
+	private void ladeUser(Integer selectedIndex) {
+		
+		Benutzer b =  benutzerliste.get(selectedIndex + 1);
+		
+		tfvname.setText( b.getVorname() );
+		tfnname.setText( b.getNachname() + " " + b.getGeburtsdatum());
+	}
+	
 	// Menue Datei und Menue Auswahl
 	private void menu() {
 		JMenuBar bar 	= 	new JMenuBar();
@@ -96,16 +139,13 @@ public class View extends JFrame implements IView {
 	 * Unterer Bereich Buttons Neu, Speicher, Löschen rechtsbündig
 	 * 
 	 */
-	
+
 	private void aussehen() {
 		JPanel links = new JPanel();
 		links.setLayout(new BorderLayout());		// Panel in das Borderlayout
 		
 		Box box = Box.createVerticalBox();
-		
-		
-		
-		
+
 		/**
 		 * Linker Bereich
 		 * Label-Info-Feld
@@ -117,12 +157,27 @@ public class View extends JFrame implements IView {
 		infolistbox.setSize(200,30);
 		box.add(infolistbox);
 		
-		box.add(box.createVerticalStrut(5));				// 5 Pixel Abstand
-	
+		box.add(box.createVerticalStrut(5));							// 5 Pixel Abstand
+		//ladeListControl();
 		
 		// String array (test)
 		String liste[] = {"Meier","Mueller","Schulze"};
-		JList<String> teilnehmerliste = new JList<String>(liste);
+		teilnehmerliste = new JList<String>();
+		
+		teilnehmerliste.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				if(e.getValueIsAdjusting()) {
+					return;
+				}
+				JList list = (JList) e.getSource();
+				if (list.getSelectedIndex() >= 0) {
+					ladeUser((Integer) list.getSelectedIndex());	// Fehlt noch
+				}
+			}
+		});
+		
+		
 		teilnehmerliste.setFont(this.getFont());
 		teilnehmerliste.setBorder(setBoarder());						// Rahmen darum setzen
 		
@@ -139,6 +194,22 @@ public class View extends JFrame implements IView {
 		JButton laden = new JButton("Daten laden");
 		laden.setBorder(setBoarder());
 		laden.setFont(this.getFont());
+		
+		// Button maximieren
+		laden.setMaximumSize(box.getPreferredSize());
+		
+		// Hinzufügen das der Button bei Klick Daten lädt
+		laden.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ladeListeButton();
+				
+			}
+		});
+		
+		
+		
 		
 		// laden.setAlignmentX(Component.LEFT_ALIGNMENT);
 		// laden.setAlignmentY(Component.CENTER_ALIGNMENT);
@@ -184,7 +255,7 @@ public class View extends JFrame implements IView {
 		/**
 		 * Textfeld: Vorname
 		 */
-		JTextField tfvname = new JTextField("Klaus");
+		tfvname = new JTextField("Klaus");
 		tfvname.setFont(this.getFont());
 		tfvname.setBorder(setBoarder());
 		addComponent(inhalt, gbl, tfvname, 0, 2, GridBagConstraints.REMAINDER,
@@ -204,7 +275,7 @@ public class View extends JFrame implements IView {
 		/**
 		 * Textfeld: Nachname
 		 */
-		JTextField tfnname = new JTextField("Müller");
+		tfnname = new JTextField("Müller");
 		tfnname.setFont(this.getFont());
 		tfnname.setBorder(setBoarder());
 		addComponent(inhalt, gbl, tfnname, 0, 4, GridBagConstraints.REMAINDER,
@@ -225,7 +296,7 @@ public class View extends JFrame implements IView {
 		gebtag.setFont(this.getFont());
 		gebtag.setForeground(Color.BLUE);
 		addComponent(inhalt, gbl, gebtag, 0, 6, 1, 1, 
-				GridBagConstraints.WEST, default_insets, 1, 0, 
+				GridBagConstraints.WEST, default_insets, 0, 0, 
 				GridBagConstraints.HORIZONTAL);
 		/*
 		 * Label: GebMonat
@@ -246,16 +317,17 @@ public class View extends JFrame implements IView {
 				GridBagConstraints.WEST, default_insets, 1, 0, 
 				GridBagConstraints.HORIZONTAL);
 		
-		
 		String [] lisTag = {"1","2","3"};
 		String [] lisMonat = {"Jan","Feb","Mrz"};
 		String [] lisJahr = {"2000","1999","1998"};
 		
+		
+		int abstand = 0;
 		JComboBox<String> cbxtage = new JComboBox<String>(lisTag);
 		cbxtage.setFont(this.getFont());
 		addComponent(inhalt, gbl, cbxtage, 0, 7, 1, 1, 
-				GridBagConstraints.NORTHWEST, default_insets, 1, 0, 
-				GridBagConstraints.HORIZONTAL);
+				GridBagConstraints.NORTHWEST, default_insets, 0, 0, 
+				GridBagConstraints.NONE);		// NONE = nur auf die Breite der Zahl
 		
 		JComboBox<String> cbxmonate = new JComboBox<String>(lisMonat);
 		cbxmonate.setFont(this.getFont());
@@ -268,6 +340,34 @@ public class View extends JFrame implements IView {
 		addComponent(inhalt, gbl, cbxjahre, 2, 7, 1, 1, 
 				GridBagConstraints.NORTHWEST, default_insets, 1, 0, 
 				GridBagConstraints.HORIZONTAL);
+		
+		
+		/**
+		 * Zur Ausdehnung und Positionierung der Felder
+		 * ist hire ein unsichtbares Feld eingesetzt
+		 * man benötigt es nicht direkt,
+		 * kann aber flexibler die Lücke füllen
+		 */
+		
+		JLabel notvisible = new JLabel("");
+		notvisible.setFont(this.getFont());
+		addComponent(inhalt, gbl, notvisible, 0, 8, GridBagConstraints.RELATIVE, 1, 
+				GridBagConstraints.NORTHWEST, default_insets, 1, 1, 
+				GridBagConstraints.BOTH);
+		
+		JButton bneu = new JButton("Neu");
+		bneu.setFont(this.getFont());
+		addComponent(inhalt, gbl, bneu, 0, 9, GridBagConstraints.RELATIVE, 1, 
+				GridBagConstraints.SOUTHEAST, default_insets, 0, 0, 
+				GridBagConstraints.NONE);
+		
+		JButton bsave = new JButton("Speichern");
+		bsave.setFont(this.getFont());
+		addComponent(inhalt, gbl, bsave, 0, 9, GridBagConstraints.REMAINDER, 0, 
+				GridBagConstraints.SOUTHEAST, default_insets, 0, 0, 
+				GridBagConstraints.NONE);
+		
+		
 		
 		
 		
@@ -303,6 +403,37 @@ public class View extends JFrame implements IView {
 	@Override
 	public void visible() {
 		this.setVisible(true);
+	}
+
+	@Override
+	public void setModel(IModel model) {
+		this.model = model;
+	}
+	
+	public void ladeListControl() {
+		
+		benutzerliste = new Hashtable<Integer,Benutzer>();
+		
+		rs = this.model.laden();
+		listModel = new DefaultListModel<String>();
+		//System.out.println(rs);
+		try {
+			while (rs.next()) {
+				System.out.println(rs.getString(1) + " - " +  rs.getString(2) + " - " + rs.getString(4));
+				listModel.addElement(rs.getString(2));
+				benutzer = new Benutzer(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDate(4));
+				benutzerliste.put(rs.getInt(1), benutzer);
+			}
+			
+			//teilnehmerliste.setModel(listModel);
+			
+			
+		} catch (SQLException e) {
+			
+			System.out.println(e.getMessage());
+		}
+		
+		
 	}
 	
 }

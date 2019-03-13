@@ -11,6 +11,10 @@ public class Controller {
 		this._view = view;
 		
 		
+		// 27.02.2019
+		this._view.setModel(this._model);
+		
+		
 		this._view.visible();
 		
 	}

@@ -5,7 +5,6 @@ import java.awt.FlowLayout;
 
 import javax.swing.*;
 
-import javafx.scene.control.Label;
 
 public class Swing2 extends JFrame {
 

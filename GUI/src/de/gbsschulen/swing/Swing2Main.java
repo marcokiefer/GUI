@@ -1,7 +1,6 @@
 package de.gbsschulen.swing;
 
 import javax.swing.JFrame;
-import javafx.scene.text.Text;
 
 public class Swing2Main {
 

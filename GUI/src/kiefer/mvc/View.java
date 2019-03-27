@@ -155,6 +155,7 @@ public class View extends JFrame implements IView {
 		infolistbox.setBorder(setBoarder());
 		infolistbox.setFont(this.getFont());
 		infolistbox.setSize(200,30);
+		
 		box.add(infolistbox);
 		
 		box.add(box.createVerticalStrut(5));							// 5 Pixel Abstand

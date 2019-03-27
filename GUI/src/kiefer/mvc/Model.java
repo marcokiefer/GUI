@@ -16,7 +16,6 @@ public class Model implements IModel{
 	private String dbname 		= "gui";
 	private String user 		= "root";
 	private String pw			= "mysql";
-	
 	private Statement 	stmt 	= null;
 	private ResultSet 	rs		= null;
 	private String 		_url	= "";

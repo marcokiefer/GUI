@@ -13,16 +13,16 @@ public class Person {
 		this.nachname = _nachname;
 	}
 	
-	public Integer Id( ) {
+	public Integer Id() {
 		return this.id;
 	}
 	public String Anrede() {
 		return this.anrede;
 	}
-	public String Vorname ( ) {
+	public String Vorname () {
 		return this.vorname;
 	}
-	public String Nachname ( ) {
+	public String Nachname () {
 		return this.nachname;
 	}
 	

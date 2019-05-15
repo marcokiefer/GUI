@@ -4,12 +4,15 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -37,6 +40,9 @@ public class View extends JFrame {
 	private JTextField txtanrede;
 	private JTextField txtvorname;
 	private JTextField txtnachname;
+	private JButton buttonLaden;
+	private JTextField txtButton;
+	
 
 	public View() {
 		super("Meine Kontaktliste");
@@ -111,15 +117,32 @@ public class View extends JFrame {
 
 	private void left() {
 		panleft = new JPanel();
-		panleft.setLayout(new BorderLayout());
-		 // panleft.add(Box.createHorizontalGlue());
-		//  panleft.add(Box.createRigidArea(new Dimension(10, 0)));
+		panleft.setLayout(new GridBagLayout());
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.NORTHWEST;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridwidth = GridBagConstraints.REMAINDER;
+		buttonLaden = new JButton("Laden");
+		
+		
+		// panleft.add(Box.createHorizontalGlue());
+		// panleft.add(Box.createRigidArea(new Dimension(10, 0)));
 		panleft.setBackground(Color.red);
 		LineBorder lBorder = new LineBorder(new Color(100, 100, 100));
 		cbxpersonen = new JComboBox();
 		cbxpersonen.setBorder(lBorder);
 		cbxpersonen.setFont(this.getFont());
 		panleft.add(cbxpersonen);
+		panleft.add(buttonLaden);
+		
+		buttonLaden.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ausgabe();
+			}
+			
+		});
+		
 		splitpane.setLeftComponent(panleft);
 	}
 
@@ -141,6 +164,10 @@ public class View extends JFrame {
 		panright.add(txtnachname);
 		panright.setBackground(Color.yellow);
 		splitpane.setRightComponent(panright);
+		
+	}
+	private void ausgabe() {
+		System.out.println("Button gedrückt");
 		
 	}
 

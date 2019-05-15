@@ -8,7 +8,5 @@ public class Vorbereitung {
 		View view = new View();
 		Controller controller = new Controller(view, model);
 		controller.starten();
-
 	}
-
 }

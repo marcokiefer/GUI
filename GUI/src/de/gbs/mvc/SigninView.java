@@ -85,7 +85,7 @@ public class SigninView extends JFrame{
 		gbc.weighty = 0; // ohne zusätzlichen Raum
 		pancenter.add(lbluser,gbc);
 		lbluser.setFont(this.getFont());
-		lbluser.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY,1));
+		//lbluser.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY,1));
 		
 		txtuser = new JTextField(20);
 		txtuser.setText("chr-pickel@");
@@ -101,15 +101,15 @@ public class SigninView extends JFrame{
 		txtuser.setPreferredSize(new Dimension(20, 20));
 		
 		
-		lblpw = new JLabel("Passwort: ");
+		lblpw = new JLabel("Passwort:");
 		gbc.gridx = 0;
 		gbc.gridy = 2;
-		gbc.weighty = 0; // ohne zusätlichen Raum
+		gbc.weighty = 0; 							// ohne zusätlichen Raum
 		gbc.fill = GridBagConstraints.NONE;
 		pancenter.add(this.lblpw,gbc);
 		lblpw.setFont(this.getFont());
 		
-		lblpw.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1));
+		//lblpw.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1));
 		
 		txtpw = new JTextField();
 		txtpw.setText("Passwort");
@@ -145,7 +145,6 @@ public class SigninView extends JFrame{
 		gbc.fill = GridBagConstraints.BOTH;
 		pancenter.add(fills, gbc);
 		form.add(pancenter, BorderLayout.CENTER);
-		
 		
 	}
 	

@@ -41,26 +41,19 @@ public class View extends JFrame implements IView {
 	private ResultSet rs 				= null;
 	private JMenu datei 				= null;
 	private JMenu auswahl 				= null;
-	
 	private JTextField tfvname 			= null;
 	private JTextField tfnname 			= null;
-	
 	JList<String> teilnehmerliste 		= null;
-	
 	DefaultListModel<String> listModel 	= null;
-	
 	private Benutzer benutzer = null;
 	private Hashtable<Integer, Benutzer> benutzerliste;
-	
 	
 		// Bei Klick auf Teilnehmer wird das Listenfeld geladen
 	JMenuItem teilnehmer;
 	
-	
 	public View () {
 		System.out.println("Ausgabe View");
 		this.init();
-		
 	}
 	
 	private void init() {
@@ -73,18 +66,12 @@ public class View extends JFrame implements IView {
 		// Schrift ändern
 		this.setFont(new Font("Verdana", 0, 20));
 		//System.out.println(this.getFont().getFontName());
-		
 		// ********** Grüße des Windows mitgeben **********
 		// Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		// this.setSize( screen );
-		
 		// ********** Fenstergröße nicht veränderbar **********
 		// this.setResizable(false);
-		
-		
-		
 		this.setLayout(new BorderLayout());
-		
 		this.menu();
 		this.aussehen();
 		this.inhalt();
@@ -95,19 +82,15 @@ public class View extends JFrame implements IView {
 	 * in die JList Teilnehmer
 	 */
 	private void ladeListeButton() {
-		
 		this.ladeListControl();
 		teilnehmerliste.setModel(this.listModel);
 		teilnehmerliste.setFont(this.getFont());
-		
 		tfvname.setText("");
 		tfnname.setText("");
 		
 	}
 	private void ladeUser(Integer selectedIndex) {
-		
 		Benutzer b =  benutzerliste.get(selectedIndex + 1);
-		
 		tfvname.setText( b.getVorname() );
 		tfnname.setText( b.getNachname() + " " + b.getGeburtsdatum());
 	}
@@ -118,17 +101,12 @@ public class View extends JFrame implements IView {
 		datei 			= 	new JMenu("Datei");
 		auswahl 		= 	new JMenu("Auswahl");
 		teilnehmer 		= 	new JMenuItem("Teilnehmer");
-		
 		datei.setFont(this.getFont());
 		auswahl.setFont(this.getFont());
 		teilnehmer.setFont(this.getFont());
-		
-		
 		auswahl.add(teilnehmer);
-		
 		bar.add(datei);
 		bar.add(auswahl);
-		
 		this.setJMenuBar(bar);	//einfügen der Menubar
 	}
 	
@@ -143,9 +121,7 @@ public class View extends JFrame implements IView {
 	private void aussehen() {
 		JPanel links = new JPanel();
 		links.setLayout(new BorderLayout());		// Panel in das Borderlayout
-		
 		Box box = Box.createVerticalBox();
-
 		/**
 		 * Linker Bereich
 		 * Label-Info-Feld
@@ -155,16 +131,12 @@ public class View extends JFrame implements IView {
 		infolistbox.setBorder(setBoarder());
 		infolistbox.setFont(this.getFont());
 		infolistbox.setSize(200,30);
-		
 		box.add(infolistbox);
-		
 		box.add(box.createVerticalStrut(5));							// 5 Pixel Abstand
 		//ladeListControl();
-		
 		// String array (test)
 		String liste[] = {"Meier","Mueller","Schulze"};
 		teilnehmerliste = new JList<String>();
-		
 		teilnehmerliste.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
@@ -178,39 +150,26 @@ public class View extends JFrame implements IView {
 			}
 		});
 		
-		
 		teilnehmerliste.setFont(this.getFont());
 		teilnehmerliste.setBorder(setBoarder());						// Rahmen darum setzen
-		
 		JScrollPane scrollPane = new JScrollPane(teilnehmerliste);		// Teilnehmerliste scrollbar machen
-		scrollPane.setAlignmentX(LEFT_ALIGNMENT);						// Linksbündig ausrichten
-									
-				
-		
+		scrollPane.setAlignmentX(LEFT_ALIGNMENT);						// Linksbündig ausrichten						
 		// Teilnehmerliste hinzufügen
 		box.add(scrollPane);
 		box.add(box.createVerticalStrut(5));
-		
-		
 		JButton laden = new JButton("Daten laden");
 		laden.setBorder(setBoarder());
 		laden.setFont(this.getFont());
-		
 		// Button maximieren
 		laden.setMaximumSize(box.getPreferredSize());
 		
 		// Hinzufügen das der Button bei Klick Daten lädt
 		laden.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ladeListeButton();
-				
+				ladeListeButton();	
 			}
 		});
-		
-		
-		
 		
 		// laden.setAlignmentX(Component.LEFT_ALIGNMENT);
 		// laden.setAlignmentY(Component.CENTER_ALIGNMENT);
@@ -224,25 +183,20 @@ public class View extends JFrame implements IView {
 	private void inhalt( ) {
 		// Benutzen des Layout-Containers (GridBagLayout und GridBagConstraints)
 		JPanel inhalt = new JPanel();
-		
 		GridBagLayout gbl = new GridBagLayout();
 		inhalt.setLayout(gbl);
-		
 		Insets default_insets = new Insets(5, 5, 5, 5);
 		/**
 		 * Einfügen der Komponenten in das GridBagLayout
 		 */
 		JLabel header = new JLabel("Eingabebereich unserer Ansicht");
 		header.setFont(this.getFont());
-		
 		/**
 		 * Vorgehensweise beim Einfügen der Komponenten in das Layout
 		 */
-		
 		addComponent(inhalt, gbl, header, 0, 0, GridBagConstraints.REMAINDER,
 				1, GridBagConstraints.WEST, default_insets, 0, 0, 
 				GridBagConstraints.HORIZONTAL);
-		
 		/**
 		 * Vorname
 		 */
@@ -252,7 +206,6 @@ public class View extends JFrame implements IView {
 		addComponent(inhalt, gbl, vname, 0, 1, GridBagConstraints.REMAINDER,
 				1, GridBagConstraints.WEST, default_insets, 0, 0, 
 				GridBagConstraints.HORIZONTAL);
-		
 		/**
 		 * Textfeld: Vorname
 		 */
@@ -262,7 +215,6 @@ public class View extends JFrame implements IView {
 		addComponent(inhalt, gbl, tfvname, 0, 2, GridBagConstraints.REMAINDER,
 				1, GridBagConstraints.WEST, default_insets, 0, 0, 
 				GridBagConstraints.HORIZONTAL);
-		
 		/**
 		 * Nachname
 		 */
@@ -272,7 +224,6 @@ public class View extends JFrame implements IView {
 		addComponent(inhalt, gbl, nname, 0, 3, GridBagConstraints.REMAINDER,
 				1, GridBagConstraints.WEST, default_insets, 0, 0, 
 				GridBagConstraints.HORIZONTAL);
-		
 		/**
 		 * Textfeld: Nachname
 		 */
@@ -282,8 +233,7 @@ public class View extends JFrame implements IView {
 		addComponent(inhalt, gbl, tfnname, 0, 4, GridBagConstraints.REMAINDER,
 				1, GridBagConstraints.WEST, default_insets, 0, 0, 
 				GridBagConstraints.HORIZONTAL);
-		
-		
+ 
 		/**
 		 * Geburtstag mit 3 Comboboxen
 		 * Tag 1,2,3....
@@ -321,8 +271,7 @@ public class View extends JFrame implements IView {
 		String [] lisTag = {"1","2","3"};
 		String [] lisMonat = {"Jan","Feb","Mrz"};
 		String [] lisJahr = {"2000","1999","1998"};
-		
-		
+				
 		int abstand = 0;
 		JComboBox<String> cbxtage = new JComboBox<String>(lisTag);
 		cbxtage.setFont(this.getFont());
@@ -341,7 +290,6 @@ public class View extends JFrame implements IView {
 		addComponent(inhalt, gbl, cbxjahre, 2, 7, 1, 1, 
 				GridBagConstraints.NORTHWEST, default_insets, 1, 0, 
 				GridBagConstraints.HORIZONTAL);
-		
 		
 		/**
 		 * Zur Ausdehnung und Positionierung der Felder
@@ -367,12 +315,7 @@ public class View extends JFrame implements IView {
 		addComponent(inhalt, gbl, bsave, 0, 9, GridBagConstraints.REMAINDER, 0, 
 				GridBagConstraints.SOUTHEAST, default_insets, 0, 0, 
 				GridBagConstraints.NONE);
-		
-		
-		
-		
-		
-		
+				
 		this.getContentPane().add(inhalt, BorderLayout.CENTER);
 	}
 	private void addComponent(Container cont, GridBagLayout gbl,
@@ -393,13 +336,11 @@ public class View extends JFrame implements IView {
 			cont.add(comp);
 	}
 	
-	
 	private Border setBoarder() {					// Methode für den Innenabstand (Border und Padding für die Steuerelement 
 		EmptyBorder eBorder = new EmptyBorder(5, 10, 5, 10); // oeben, rechts, unten, links
 		LineBorder lBorder = new LineBorder(Color.LIGHT_GRAY);
 		return BorderFactory.createCompoundBorder(lBorder,eBorder);
 	}
-	
 	
 	@Override
 	public void visible() {
@@ -410,11 +351,8 @@ public class View extends JFrame implements IView {
 	public void setModel(IModel model) {
 		this.model = model;
 	}
-	
 	public void ladeListControl() {
-		
 		benutzerliste = new Hashtable<Integer,Benutzer>();
-		
 		rs = this.model.laden();
 		listModel = new DefaultListModel<String>();
 		//System.out.println(rs);
@@ -425,16 +363,9 @@ public class View extends JFrame implements IView {
 				benutzer = new Benutzer(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDate(4));
 				benutzerliste.put(rs.getInt(1), benutzer);
 			}
-			
 			//teilnehmerliste.setModel(listModel);
-			
-			
 		} catch (SQLException e) {
-			
 			System.out.println(e.getMessage());
 		}
-		
-		
 	}
-	
 }
